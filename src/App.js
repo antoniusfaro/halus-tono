@@ -20,7 +20,6 @@ function App() {
   } else {
     firebase.app(); // if already initialized, use that one
   }
-  console.log(todos);
   useEffect(() => {
     const starCountRef = firebase.database().ref('/todos');
     starCountRef.on('value', (snapshot) => {
@@ -33,7 +32,7 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <TodosContext.Provider value={todos}>
+      <TodosContext.Provider value={{ todos: todos, setTodos: setTodos }}>
         <TodoList />
       </TodosContext.Provider>
     </div>

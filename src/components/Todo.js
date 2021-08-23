@@ -6,11 +6,31 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
+import firebase from 'firebase/app';
 
-const Todo = ({ todo }) => {
-  const [checked, setChecked] = useState(false);
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
+const Todo = ({ todo, index }) => {
+  const [checked, setChecked] = useState(todo.isCompleted);
+  const updateTodoStatus = (isCompleted) => {
+    firebase.database().ref('todos/' + index).set({
+      task: todo.task,
+      type: todo.type,
+      isCompleted : isCompleted
+    }, (error) => {
+      if (error) {
+        console.log(`Error: ${error}`);
+      } else {
+        console.log(`Update todo index ke-${index} berhasil!`);
+      }
+    });
+  };
+  const handleChange = (ev) => {
+    const isCompleted = ev.target.checked;
+    setChecked(isCompleted);
+    updateTodoStatus(isCompleted);
+    if (isCompleted) {
+      const audio = new Audio('/audio/task-complete.mp3');
+      audio.play();
+    }
   };
   return (
     <>

@@ -3,8 +3,6 @@ import { Container, Typography } from '@material-ui/core';
 
 const TopBar = () => {
   const test = new Date().toLocaleString();
-  console.log(test);
-
   return (
     <Container
       style={{ backgroundColor: '#acacac' }}
